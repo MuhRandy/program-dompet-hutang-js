@@ -1,6 +1,6 @@
 # Introduction
 
-Program ini saya buat dengan bahasa javascript dengan tujuan belajar dan untuk memudahkan saya mendata uang yang ada di dompet dan hutang.
+Program ini saya buat dengan bahasa javascript dan node js dengan tujuan belajar dan untuk memudahkan saya mendata uang yang ada di dompet dan hutang.
 
 ---
 
@@ -33,28 +33,19 @@ Berikut adalah perintah-perintah untuk menggunakan program ini pada terminal.
 ### Dompet
 
 ```
-node dompet <jenis-uang> <banyak-jenis-uang>
+node dompet [<opsi>-<jenis_uang>-<banyak_jenis_uang>]
 ```
 
-`<jenis-uang>` dapat diganti dengan format berikut
+`<opsi>` dapat diganti dengan format `m` atau `M` untuk uang masuk dan `k` atau `K` untuk uang keluar.
 
-```
-100K => seratus_ribu
-50K => lima_puluh_ribu
-20K => dua_puluh_ribu
-10K => sepuluh_ribu
-5K => lima_ribu
-2K => dua_ribu
-1K => seribu
-500 => lima_ratus
-```
+`<jenis_uang>` dapat diganti dengan format `k` atau `K` di akhirnya seperti 100k atau 20K.
 
 #### Contoh
 
-Perintah di bawah ini menambahkan uang dengan jenis `dua_puluh_ribu` pada `data.json`
+Perintah di bawah ini akan menambahkan uang dengan jenis `dua_puluh_ribu` dan `lima_puluh_ribu` masing-masing 1 pada `data.json`, dan mengurangi uang dengan jenis `seratus_ribu` sebanyak 2.
 
 ```
-node dompet 20K 2
+node dompet m-20K-1 k-100k-2 M-50k-1
 ```
 
 ### Hutang
