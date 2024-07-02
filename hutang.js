@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { cekHutang } = require("./data");
 
 const rawData = fs.readFileSync("./data.json");
 const dataJSON = JSON.parse(rawData);
@@ -55,6 +56,6 @@ switch (aksi) {
     break;
 }
 
-console.log(JSON.stringify(hutang));
-
 fs.writeFileSync("./data.json", JSON.stringify(data));
+
+cekHutang(data.hutang);

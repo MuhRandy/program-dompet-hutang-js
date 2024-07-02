@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { cekDompet } = require("./data");
 
 const rawData = fs.readFileSync("./data.json");
 const dataJSON = JSON.parse(rawData);
@@ -117,4 +118,5 @@ input.forEach((item) => {
 });
 
 fs.writeFileSync("./data.json", JSON.stringify(data));
-console.log(dompet);
+
+cekDompet(data.dompet);
