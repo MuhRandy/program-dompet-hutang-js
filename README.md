@@ -6,7 +6,7 @@ Program ini saya buat dengan bahasa javascript dan node js dengan tujuan belajar
 
 # Pra-syarat
 
-Pertama-tama untuk menggunakan program ini, kamu harus membuat file `data.json` yang berisi
+Pertama-tama untuk menggunakan program ini kamu dapat install dengan `npm i -g` pada root folder ini. Kemudian buat file `data.json` pada folder bin lalu tuliskan ini didalamnya.
 
 ```json
 {
@@ -33,7 +33,7 @@ Berikut adalah perintah-perintah untuk menggunakan program ini pada terminal.
 ### Dompet
 
 ```
-node dompet [<opsi>-<jenis_uang>-<banyak_jenis_uang>]
+mywallet buka-dompet [<opsi>-<jenis_uang>-<banyak_jenis_uang>]
 ```
 
 `<opsi>` dapat diganti dengan format `m` atau `M` untuk uang masuk dan `k` atau `K` untuk uang keluar.
@@ -45,20 +45,20 @@ node dompet [<opsi>-<jenis_uang>-<banyak_jenis_uang>]
 Perintah di bawah ini akan menambahkan uang dengan jenis `dua_puluh_ribu` dan `lima_puluh_ribu` masing-masing 1 pada `data.json`, dan mengurangi uang dengan jenis `seratus_ribu` sebanyak 2.
 
 ```
-node dompet m-20K-1 k-100k-2 M-50k-1
+mywallet buka-dompet m-20K-1 k-100k-2 M-50k-1
 ```
 
 ### Hutang
 
 ```
-node hutang <opsi> <nama> <hutang> <keterangan>
+mywallet <opsi> <nama> <hutang> <keterangan>
 ```
 
 `<opsi>` dapat diganti berdasarkan pengguna ingin melakukan apa
 
 ```
-tambah => menambahkan data
-hapus => menghapus data berdasarkan nama
+tambah-hutang => menambahkan data
+hapus-hutang => menghapus data berdasarkan nama
 ```
 
 `<hutang>` diisi dengan jumlah atau nominal hutang (angka)
@@ -68,19 +68,19 @@ hapus => menghapus data berdasarkan nama
 Perintah di bawah ini akan menambahkan data hutang atas nama `Fulan` dengan nominal `2000` dan keterangan `Kopi Susu`
 
 ```
-node hutang tambah Fulan 2000 "Kopi Susu"
+mywallet tambah-hutang Fulan 2000 "Kopi Susu"
 ```
 
 Perintah di bawah ini akan menghapus data hutang atas nama `Fulan`
 
 ```
-node hutang hapus Fulan
+mywallet hapus-hutang Fulan
 ```
 
 ## Lihat Data
 
 ```
-node data <cek-data> <nama>
+mywallet <cek-data> <nama>
 ```
 
 `<cek-data>` dapat di ganti dengan
@@ -97,5 +97,5 @@ Isi `<nama>` jika kamu ingin melihat detail dari hutang atas nama tersebut saat 
 Perintah di bawah ini akan cek detail data hutang atas nama Fulan
 
 ```
-node data cek-hutang Fulan
+mywallet cek-hutang Fulan
 ```
