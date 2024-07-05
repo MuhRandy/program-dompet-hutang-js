@@ -33,25 +33,31 @@ Berikut adalah perintah-perintah untuk menggunakan program ini pada terminal.
 ### Dompet
 
 ```
-mywallet buka-dompet [<opsi>-<jenis_uang>-<banyak_jenis_uang>]
+mywallet buka-dompet -m [jenis_uang-jumlah_uang] -k [jenis_uang-jumlah_uang]
 ```
 
-`<opsi>` dapat diganti dengan format `m` atau `M` untuk uang masuk dan `k` atau `K` untuk uang keluar.
+`-m` dapat diganti dengan format `--masuk` untuk uang masuk dan `k` dengan `--keluar` untuk uang keluar.
 
-`<jenis_uang>` dapat diganti dengan format `k` atau `K` di akhirnya seperti 100k atau 20K.
+`jenis_uang` dapat diganti dengan format `k` atau `K` di akhirnya seperti 100k atau 20K.
 
 #### Contoh
 
 Perintah di bawah ini akan menambahkan uang dengan jenis `dua_puluh_ribu` dan `lima_puluh_ribu` masing-masing 1 pada `data.json`, dan mengurangi uang dengan jenis `seratus_ribu` sebanyak 2.
 
 ```
-mywallet buka-dompet m-20K-1 k-100k-2 M-50k-1
+mywallet buka-dompet -m 20K-1 50k-1 --keluar 100k-2
+```
+
+Jika ingin mengunakan salah satu saja maka perlu juga menuliskan yang lainnya meski tidak ada, misal:
+
+```
+mywallet buka-dompet --masuk 20k-2 5k-1 10k-3 -k
 ```
 
 ### Hutang
 
 ```
-mywallet <opsi> <nama> <hutang> <keterangan>
+mywallet <opsi> -n [nama] -j [hutang] -k [keterangan]
 ```
 
 `<opsi>` dapat diganti berdasarkan pengguna ingin melakukan apa
@@ -61,14 +67,14 @@ tambah-hutang => menambahkan data
 hapus-hutang => menghapus data berdasarkan nama
 ```
 
-`<hutang>` diisi dengan jumlah atau nominal hutang (angka)
+`[hutang]` diisi dengan jumlah atau nominal hutang (angka)
 
 #### Contoh
 
 Perintah di bawah ini akan menambahkan data hutang atas nama `Fulan` dengan nominal `2000` dan keterangan `Kopi Susu`
 
 ```
-mywallet tambah-hutang Fulan 2000 "Kopi Susu"
+mywallet tambah-hutang -n Fulan -j 2000 -k Kopi Susu
 ```
 
 Perintah di bawah ini akan menghapus data hutang atas nama `Fulan`
@@ -80,7 +86,7 @@ mywallet hapus-hutang Fulan
 ## Lihat Data
 
 ```
-mywallet <cek-data> <nama>
+mywallet <cek-data> [nama]
 ```
 
 `<cek-data>` dapat di ganti dengan
@@ -90,12 +96,25 @@ cek-dompet => melihat data dompet
 cek-hutang => melihat data hutang
 ```
 
-Isi `<nama>` jika kamu ingin melihat detail dari hutang atas nama tersebut saat `cek-hutang`
+Isi `[nama]` jika kamu ingin melihat detail dari hutang atas nama tersebut saat `cek-hutang`
 
 ### Contoh
 
 Perintah di bawah ini akan cek detail data hutang atas nama Fulan
 
 ```
-mywallet cek-hutang Fulan
+mywallet cek-hutang -n Fulan
+```
+
+## Help
+
+Untuk dapat lebih mengetahui apa saja _command_ yang tersedia maka kamu dapat cek dengan `--help` pada _command_ tersebut.
+
+```
+mywallet --help
+mywallet cek-dompet --help
+mywallet cek-hutang --help
+mywallet buka-dompet --help
+mywallet tambah-hutang --help
+mywallet hapus-hutang --help
 ```

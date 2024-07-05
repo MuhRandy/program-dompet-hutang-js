@@ -1,44 +1,87 @@
 import fs from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import boxen from "boxen";
+import table from "text-table";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function cekDompet(dompet) {
-  console.log("Jumlah uang didompet", dompet.total);
-  console.log("100K", dompet.seratus_ribu);
-  console.log("50K", dompet.lima_puluh_ribu);
-  console.log("20K", dompet.dua_puluh_ribu);
-  console.log("10K", dompet.sepuluh_ribu);
-  console.log("5K", dompet.lima_ribu);
-  console.log("2K", dompet.dua_ribu);
-  console.log("1K", dompet.seribu);
-  console.log("500", dompet.lima_ratus);
+  const dompetData = [
+    ["100K", dompet.seratus_ribu],
+    ["50K", dompet.lima_puluh_ribu],
+    ["20K", dompet.dua_puluh_ribu],
+    ["10K", dompet.sepuluh_ribu],
+    ["5K", dompet.lima_ribu],
+    ["2K", dompet.dua_ribu],
+    ["1K", dompet.seribu],
+    ["500", dompet.lima_ratus],
+  ];
+
+  const t = table(dompetData, { align: ["l", "r"] });
+
+  console.log(
+    boxen(t, {
+      textAlignment: "center",
+      title: `Dompet :${dompet.total}`,
+      titleAlignment: "center",
+      padding: 1,
+    })
+  );
 }
 
 function cekHutang(hutang, detail) {
   if (!detail) {
     let totalHutang = 0;
+    const hutangTable = [
+      ["Nama", "Hutang"],
+      ["", ""],
+    ];
+
     hutang.map((data) => {
       totalHutang += data.totalHutang;
-      console.log(data.nama, data.totalHutang);
+      hutangTable.push([data.nama, data.totalHutang]);
     });
 
-    console.log("Total hutang", totalHutang);
+    const t = table(hutangTable, { align: ["l", "l"] });
+
+    console.log(
+      boxen(t, {
+        padding: 1,
+        title: `Hutang :${totalHutang}`,
+        titleAlignment: "center",
+      })
+    );
   } else {
     const data = hutang.filter((data) => data.nama === detail);
+    const hutangTable = [
+      ["Nominal", "Keterangan", "Tanggal"],
+      ["", "", ""],
+    ];
+    let totalHutang;
+
     data.map((item) => {
       if (item.nama === detail) {
+        totalHutang = item.totalHutang;
+
         item.rincian.map((rinci) => {
-          console.log(rinci.jumlah, rinci.keterangan, rinci.tanggal);
+          hutangTable.push([rinci.jumlah, rinci.keterangan, rinci.tanggal]);
         });
-        console.log("Total Hutang", item.totalHutang);
       }
     });
+
+    const t = table(hutangTable, { align: ["l", "l", "l"] });
+    console.log(
+      boxen(t, {
+        padding: 1,
+        title: `Hutang :${totalHutang}`,
+        titleAlignment: "center",
+      })
+    );
   }
 }
 
-function bukaDompet(dompet, json, input) {
+function bukaDompet(dompet, json, masuk, keluar) {
   const newDompet = {
     seratus_ribu: dompet.seratus_ribu,
     lima_puluh_ribu: dompet.lima_puluh_ribu,
@@ -125,28 +168,28 @@ function bukaDompet(dompet, json, input) {
   const data = json;
   data.dompet = newDompet;
 
-  input.forEach((item) => {
+  masuk.forEach((item) => {
     const tempArr = item.split("-");
-    const opsi = tempArr[0];
-    const jenisUang = tempArr[1];
-    const jumlahJenisUang = parseInt(tempArr[2]);
+    const jenisUang = tempArr[0];
+    const jumlahJenisUang = parseInt(tempArr[1]);
 
-    if (opsi === "m" || opsi === "M") {
-      console.log(
-        `Uang masuk dengan jenis ${jenisUang} sebanyak ${jumlahJenisUang}`
-      );
+    console.log(
+      `Uang masuk dengan jenis ${jenisUang} sebanyak ${jumlahJenisUang}`
+    );
+    newDompet.masukkanUang(jenisUang, jumlahJenisUang);
+    newDompet.total = newDompet.hitungTotal();
+  });
 
-      newDompet.masukkanUang(jenisUang, jumlahJenisUang);
-      newDompet.total = newDompet.hitungTotal();
-    } else if (opsi === "k" || opsi === "K") {
-      console.log(
-        `Uang keluar dengan jenis ${jenisUang} sebanyak ${jumlahJenisUang}`
-      );
-      newDompet.keluarkanUang(jenisUang, jumlahJenisUang);
-      newDompet.total = newDompet.hitungTotal();
-    } else {
-      console.log("Format yang anda masukkan salah");
-    }
+  keluar.forEach((item) => {
+    const tempArr = item.split("-");
+    const jenisUang = tempArr[0];
+    const jumlahJenisUang = parseInt(tempArr[1]);
+
+    console.log(
+      `Uang keluar dengan jenis ${jenisUang} sebanyak ${jumlahJenisUang}`
+    );
+    newDompet.keluarkanUang(jenisUang, jumlahJenisUang);
+    newDompet.total = newDompet.hitungTotal();
   });
 
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
@@ -182,7 +225,7 @@ function tambahHutang(nama, jumlahHutang, keterangan, json) {
 
   hutang.map((data) => {
     if (data.nama === nama) {
-      data.rincian.push(new RincianHutang(jumlahHutang, keterangan));
+      data.rincian.push(new RincianHutang(jumlahHutang, keterangan.join(" ")));
       data.totalHutang += jumlahHutang;
     }
   });
