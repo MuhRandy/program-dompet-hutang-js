@@ -16,18 +16,8 @@ import yargs from "yargs";
 
 const argv = yargs(process.argv.slice(2))
   .usage("Usage: $0 <command> [options]")
-  .command("$0 <command> [options]")
   .command("cek-dompet", "Cek uang yang ada di dompet")
-  .command(
-    "cek-hutang [nama]",
-    "Cek hutang. Jika [nama] diisi maka cek hutang atas [nama]",
-    {
-      nama: {
-        alias: "n",
-        describe: "Nama",
-      },
-    }
-  )
+  .command("cek-hutang [<nama>]", "Cek data hutang")
   .command(
     "buka-dompet [masuk] [keluar]",
     "Tambahkan atau kurangkan data pada dompet",
@@ -47,66 +37,18 @@ const argv = yargs(process.argv.slice(2))
     }
   )
   .command(
-    "tambah-hutang [nama] [banyak_hutang] [keterangan]",
-    "Tambahkan data hutang",
-    {
-      nama: {
-        alias: "n",
-        describe: "Nama",
-        required: true,
-      },
-      nominal: {
-        alias: "j",
-        describe: "Nominal",
-        required: true,
-        type: "number",
-      },
-      keterangan: {
-        alias: "k",
-        describe: "Keterangan",
-        required: true,
-        array: true,
-      },
-    }
+    "tambah-hutang <nama> <nominal> <keterangan..>",
+    "Tambahkan data hutang"
   )
-  .command("hapus-hutang [nama]", "Hapus data hutang", {
-    nama: {
-      alias: "n",
-      describe: "Nama",
-      required: true,
-    },
-  })
-  .command("catat-pemasukan [nominal] [keterangan]", "Tambah data pemasukan", {
-    nominal: {
-      alias: "n",
-      describe: "Nominal",
-      required: true,
-    },
-    keterangan: {
-      alias: "k",
-      describe: "Keterangan",
-      required: true,
-      array: true,
-    },
-  })
+  .command("hapus-hutang <nama>", "Hapus data hutang")
+  .command("catat-pemasukan <nominal> <keterangan..>", "Tambah data pemasukan")
   .command(
-    "catat-pengeluaran [nominal] [keterangan]",
-    "Tambah data pengeluaran",
-    {
-      nominal: {
-        alias: "n",
-        describe: "Nominal",
-        required: true,
-      },
-      keterangan: {
-        alias: "k",
-        describe: "Keterangan",
-        required: true,
-        array: true,
-      },
-    }
+    "catat-pengeluaran <nominal> <keterangan..>",
+    "Tambah data pengeluaran"
   )
   .command("cek-cashflow", "Lihat data pemasukan dan pengeluaran")
+  .demandCommand()
+  .strict()
   .parse();
 
 const command = argv._[0];
