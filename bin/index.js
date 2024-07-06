@@ -8,6 +8,9 @@ import {
   __dirname,
   tambahHutang,
   hapusHutang,
+  tambahPemasukan,
+  tambahPengeluaran,
+  cekCashflow,
 } from "./utils.js";
 import yargs from "yargs";
 
@@ -73,7 +76,37 @@ const argv = yargs(process.argv.slice(2))
       required: true,
     },
   })
-  .example("$0 cek-hutang -n Budi", "Cek detail hutang atas nama Budi")
+  .command("catat-pemasukan [nominal] [keterangan]", "Tambah data pemasukan", {
+    nominal: {
+      alias: "n",
+      describe: "Nominal",
+      required: true,
+    },
+    keterangan: {
+      alias: "k",
+      describe: "Keterangan",
+      required: true,
+      array: true,
+    },
+  })
+  .command(
+    "catat-pengeluaran [nominal] [keterangan]",
+    "Tambah data pengeluaran",
+    {
+      nominal: {
+        alias: "n",
+        describe: "Nominal",
+        required: true,
+      },
+      keterangan: {
+        alias: "k",
+        describe: "Keterangan",
+        required: true,
+        array: true,
+      },
+    }
+  )
+  .command("cek-cashflow", "Lihat data pemasukan dan pengeluaran")
   .parse();
 
 const command = argv._[0];
@@ -81,7 +114,7 @@ const nama = argv.nama;
 const masuk = argv.masuk;
 const keluar = argv.keluar;
 const nominal = argv.nominal;
-const keterangan = argv.keterangan;
+const keterangan = argv.keterangan?.join(" ");
 
 const rawData = fs.readFileSync(__dirname + "/data.json");
 const json = JSON.parse(rawData);
@@ -97,6 +130,10 @@ switch (command) {
     cekHutang(hutang, nama);
     break;
 
+  case "cek-cashflow":
+    cekCashflow();
+    break;
+
   case "buka-dompet":
     bukaDompet(dompet, json, masuk, keluar);
     break;
@@ -104,8 +141,17 @@ switch (command) {
   case "tambah-hutang":
     tambahHutang(nama, nominal, keterangan, json);
     break;
+
   case "hapus-hutang":
     hapusHutang(nama, json);
+    break;
+
+  case "catat-pemasukan":
+    tambahPemasukan(nominal, keterangan);
+    break;
+
+  case "catat-pengeluaran":
+    tambahPengeluaran(nominal, keterangan);
     break;
 
   default:

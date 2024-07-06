@@ -1,6 +1,6 @@
 # Introduction
 
-Program ini saya buat dengan bahasa javascript dan node js dengan tujuan belajar dan untuk memudahkan saya mendata uang yang ada di dompet dan hutang.
+Program ini saya buat dengan javascript dan node js dengan tujuan belajar dan untuk memudahkan saya mendata uang yang ada di dompet dan hutang.
 
 ---
 
@@ -20,7 +20,10 @@ Pertama-tama untuk menggunakan program ini kamu dapat install dengan `npm i -g` 
     "seribu": 0,
     "lima_ratus": 0
   },
-  "hutang": []
+  "hutang": [],
+  "cashflow": {
+    "transaksi": []
+  }
 }
 ```
 
@@ -33,10 +36,8 @@ Berikut adalah perintah-perintah untuk menggunakan program ini pada terminal.
 ### Dompet
 
 ```
-mywallet buka-dompet -m [jenis_uang-jumlah_uang] -k [jenis_uang-jumlah_uang]
+mywallet buka-dompet <-m|--masuk> [jenis_uang-jumlah_uang] <-k|--keluar> [jenis_uang-jumlah_uang]
 ```
-
-`-m` dapat diganti dengan format `--masuk` untuk uang masuk dan `k` dengan `--keluar` untuk uang keluar.
 
 `jenis_uang` dapat diganti dengan format `k` atau `K` di akhirnya seperti 100k atau 20K.
 
@@ -57,14 +58,14 @@ mywallet buka-dompet --masuk 20k-2 5k-1 10k-3 -k
 ### Hutang
 
 ```
-mywallet <opsi> -n [nama] -j [hutang] -k [keterangan]
+mywallet <opsi> <-n|--nama> [nama] <-j|--nominal> [hutang] <-k|--keterangan> [keterangan]
 ```
 
 `<opsi>` dapat diganti berdasarkan pengguna ingin melakukan apa
 
 ```
-tambah-hutang => menambahkan data
-hapus-hutang => menghapus data berdasarkan nama
+tambah-hutang => menambahkan data hutang
+hapus-hutang => menghapus data hutang berdasarkan nama
 ```
 
 `[hutang]` diisi dengan jumlah atau nominal hutang (angka)
@@ -83,10 +84,37 @@ Perintah di bawah ini akan menghapus data hutang atas nama `Fulan`
 mywallet hapus-hutang Fulan
 ```
 
+### Cashflow
+
+```
+mywallet <opsi> <-n|--nominal> [nominal] <-k|--keterangan> [keterangan]
+```
+
+`<opsi>` dapat diganti berdasarkan pengguna ingin melakukan apa
+
+```
+catat-pemasukan => menambahkan data pemasukan
+catat-pengeluaran => menambahkan data pengeluaran
+```
+
+#### Contoh
+
+Perintah di bawah ini akan menambahkan data pemasukan dengan nominal 7000 dan keterangan jualan pulsa.
+
+```
+mywallet catat-pemasukan -n 7000 --keterangan Jualan pulsa
+```
+
+Perintah di bawah ini akan menambahkan data pengeluaran dengan nominal 5000 dan keterangan beli cilok
+
+```
+mywallet catat-pengeluaran --nominal 5000 -k Beli cilok
+```
+
 ## Lihat Data
 
 ```
-mywallet <cek-data> [nama]
+mywallet <cek-data> <-n|--nama> [nama]
 ```
 
 `<cek-data>` dapat di ganti dengan
@@ -94,6 +122,7 @@ mywallet <cek-data> [nama]
 ```
 cek-dompet => melihat data dompet
 cek-hutang => melihat data hutang
+cek-cashflow => melihat data cashflow
 ```
 
 Isi `[nama]` jika kamu ingin melihat detail dari hutang atas nama tersebut saat `cek-hutang`
@@ -114,7 +143,10 @@ Untuk dapat lebih mengetahui apa saja _command_ yang tersedia maka kamu dapat ce
 mywallet --help
 mywallet cek-dompet --help
 mywallet cek-hutang --help
+mywallet cek-cashflow --help
 mywallet buka-dompet --help
 mywallet tambah-hutang --help
 mywallet hapus-hutang --help
+mywallet catat-pemasukan --help
+mywallet catat-pengeluaran --help
 ```

@@ -3,8 +3,13 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import boxen from "boxen";
 import table from "text-table";
+import { format } from "date-fns";
+import { cashflow, cashflowData, updateData } from "./data.js";
+import { Transaction } from "./model.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const formatTanggal = (tanggal) => format(tanggal, "eeee, dd LLL yyy - kk:mm");
 
 function cekDompet(dompet) {
   const dompetData = [
@@ -65,7 +70,11 @@ function cekHutang(hutang, detail) {
         totalHutang = item.totalHutang;
 
         item.rincian.map((rinci) => {
-          hutangTable.push([rinci.jumlah, rinci.keterangan, rinci.tanggal]);
+          hutangTable.push([
+            rinci.jumlah,
+            rinci.keterangan,
+            formatTanggal(rinci.tanggal),
+          ]);
         });
       }
     });
@@ -225,7 +234,7 @@ function tambahHutang(nama, jumlahHutang, keterangan, json) {
 
   hutang.map((data) => {
     if (data.nama === nama) {
-      data.rincian.push(new RincianHutang(jumlahHutang, keterangan.join(" ")));
+      data.rincian.push(new RincianHutang(jumlahHutang, keterangan));
       data.totalHutang += jumlahHutang;
     }
   });
@@ -248,6 +257,54 @@ function hapusHutang(nama, json) {
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
 
   cekHutang(data.hutang);
+}
+
+// Catat Transaksi
+
+export function cekCashflow() {
+  const cashflowTable = [
+    ["Nominal", "Keterangan", "Tanggal", "Tipe"],
+    ["", "", "", ""],
+  ];
+
+  cashflow.transaksi.forEach((item) =>
+    cashflowTable.push([
+      item.nominal,
+      item.keterangan,
+      formatTanggal(item.tanggal),
+      item.type,
+    ])
+  );
+
+  const t = table(cashflowTable);
+
+  console.log(
+    boxen(t, {
+      titleAlignment: `center`,
+      title: `Total :${cashflow.total}`,
+      padding: 1,
+    })
+  );
+}
+
+export function tambahPemasukan(nominal, keterangan) {
+  const pemasukan = new Transaction("Pemasukan", nominal, keterangan);
+
+  cashflow.transaksi.push(pemasukan);
+
+  updateData();
+
+  cekCashflow();
+}
+
+export function tambahPengeluaran(nominal, keterangan) {
+  const pengeluaran = new Transaction("Pengeluaran", nominal, keterangan);
+
+  cashflow.transaksi.push(pengeluaran);
+
+  updateData();
+
+  cekCashflow();
 }
 
 export {
