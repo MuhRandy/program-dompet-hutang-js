@@ -21,9 +21,7 @@ Pertama-tama untuk menggunakan program ini kamu dapat install dengan `npm i -g` 
     "lima_ratus": 0
   },
   "hutang": [],
-  "cashflow": {
-    "transaksi": []
-  }
+  "transaksi": []
 }
 ```
 

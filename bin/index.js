@@ -1,17 +1,6 @@
 #! /usr/bin/env node
 
-import fs from "fs";
-import {
-  bukaDompet,
-  cekDompet,
-  cekHutang,
-  __dirname,
-  tambahHutang,
-  hapusHutang,
-  tambahPemasukan,
-  tambahPengeluaran,
-  cekCashflow,
-} from "./utils.js";
+import { cashflowData, dompetData, hutangData } from "./data.js";
 import yargs from "yargs";
 
 const argv = yargs(process.argv.slice(2))
@@ -58,42 +47,37 @@ const keluar = argv.keluar;
 const nominal = argv.nominal;
 const keterangan = argv.keterangan?.join(" ");
 
-const rawData = fs.readFileSync(__dirname + "/data.json");
-const json = JSON.parse(rawData);
-
-const { dompet, hutang } = json;
-
 switch (command) {
   case "cek-dompet":
-    cekDompet(dompet);
+    dompetData.cekData();
     break;
 
   case "cek-hutang":
-    cekHutang(hutang, nama);
+    hutangData.cekData(nama);
     break;
 
   case "cek-cashflow":
-    cekCashflow();
+    cashflowData.cekData();
     break;
 
   case "buka-dompet":
-    bukaDompet(dompet, json, masuk, keluar);
+    dompetData.bukaDompet(masuk, keluar);
     break;
 
   case "tambah-hutang":
-    tambahHutang(nama, nominal, keterangan, json);
+    hutangData.tambah(nama, nominal, keterangan);
     break;
 
   case "hapus-hutang":
-    hapusHutang(nama, json);
+    hutangData.hapus(nama);
     break;
 
   case "catat-pemasukan":
-    tambahPemasukan(nominal, keterangan);
+    cashflowData.tambahPemasukan(nominal, keterangan);
     break;
 
   case "catat-pengeluaran":
-    tambahPengeluaran(nominal, keterangan);
+    cashflowData.tambahPengeluaran(nominal, keterangan);
     break;
 
   default:

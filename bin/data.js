@@ -1,29 +1,39 @@
 import fs from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { Cashflow } from "./model.js";
+import { Cashflow, Dompet, Hutang } from "./model.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const rawData = fs.readFileSync(__dirname + "/data.json");
 const json = JSON.parse(rawData);
 
-export const cashflowData = json.cashflow;
+const { transaksi, dompet, hutang } = json;
 
-export const cashflow = new Cashflow(
-  cashflowData.transaksi,
-  cashflowData.totalPemasukan,
-  cashflowData.totalPengeluaran,
-  cashflowData.total
+export const dompetData = new Dompet(
+  dompet.seratus_ribu,
+  dompet.lima_puluh_ribu,
+  dompet.dua_puluh_ribu,
+  dompet.sepuluh_ribu,
+  dompet.lima_ribu,
+  dompet.dua_ribu,
+  dompet.seribu,
+  dompet.lima_ratus
 );
 
-export function updateData() {
-  // update cashflow on json data
-  json.cashflow = cashflow;
+export const hutangData = new Hutang(hutang);
 
-  cashflow.hitungTotalPemasukan();
-  cashflow.hitungTotalPengeluaran();
-  cashflow.hitungTotal();
+export const cashflowData = new Cashflow(transaksi);
+
+export function updateData() {
+  // upadate hutang on json data
+  json.hutang = hutangData.hutang;
+
+  // upadate dompet on json data
+  json.dompet = dompetData;
+
+  // update cashflow on json data
+  json.transaksi = cashflowData.transaksi;
 
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(json));
 }
