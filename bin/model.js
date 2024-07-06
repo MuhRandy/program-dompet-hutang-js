@@ -41,25 +41,18 @@ export class Dompet {
   masukkanUang = function (jenisUang, jumlahJenisUang) {
     switch (jenisUang) {
       case "100K":
-      case "100k":
         return (this.seratus_ribu += jumlahJenisUang);
       case "50K":
-      case "50k":
         return (this.lima_puluh_ribu += jumlahJenisUang);
       case "20K":
-      case "20k":
         return (this.dua_puluh_ribu += jumlahJenisUang);
       case "10K":
-      case "10k":
         return (this.sepuluh_ribu += jumlahJenisUang);
       case "5K":
-      case "5k":
         return (this.lima_ribu += jumlahJenisUang);
       case "2K":
-      case "2k":
         return (this.dua_ribu += jumlahJenisUang);
       case "1K":
-      case "1k":
         return (this.seribu += jumlahJenisUang);
       case "500":
         return (this.lima_ratus += jumlahJenisUang);
@@ -72,25 +65,18 @@ export class Dompet {
   keluarkanUang = function (jenisUang, jumlahJenisUang) {
     switch (jenisUang) {
       case "100K":
-      case "100k":
         return (this.seratus_ribu -= jumlahJenisUang);
       case "50K":
-      case "50k":
         return (this.lima_puluh_ribu -= jumlahJenisUang);
       case "20K":
-      case "20k":
         return (this.dua_puluh_ribu -= jumlahJenisUang);
       case "10K":
-      case "10k":
         return (this.sepuluh_ribu -= jumlahJenisUang);
       case "5K":
-      case "5k":
         return (this.lima_ribu -= jumlahJenisUang);
       case "2K":
-      case "2k":
         return (this.dua_ribu -= jumlahJenisUang);
       case "1K":
-      case "1k":
         return (this.seribu -= jumlahJenisUang);
       case "500":
         return (this.lima_ratus -= jumlahJenisUang);
@@ -127,7 +113,7 @@ export class Dompet {
   bukaDompet = function (masuk, keluar) {
     masuk.forEach((item) => {
       const tempArr = item.split("-");
-      const jenisUang = tempArr[0];
+      const jenisUang = tempArr[0].toUpperCase();
       const jumlahJenisUang = parseInt(tempArr[1]);
 
       console.log(
@@ -138,7 +124,7 @@ export class Dompet {
 
     keluar.forEach((item) => {
       const tempArr = item.split("-");
-      const jenisUang = tempArr[0];
+      const jenisUang = tempArr[0].toUpperCase();
       const jumlahJenisUang = parseInt(tempArr[1]);
 
       console.log(
