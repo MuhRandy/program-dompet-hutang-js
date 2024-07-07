@@ -1,7 +1,9 @@
 import fs from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { Cashflow, Dompet, Hutang } from "./model.js";
+import { Dompet } from "./model/dompet.js";
+import { Hutang } from "./model/hutang.js";
+import { Cashflow } from "./model/cashflow.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
