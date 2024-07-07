@@ -13,13 +13,13 @@ const argv = yargs(process.argv.slice(2))
     {
       masuk: {
         alias: "m",
-        describe: "Masukkan",
+        describe: "Masukkan uang",
         array: true,
         required: true,
       },
       keluar: {
         alias: "k",
-        describe: "Keluarkan",
+        describe: "Keluarkan uang",
         array: true,
         required: true,
       },
@@ -57,7 +57,9 @@ switch (command) {
     break;
 
   case "cek-cashflow":
-    cashflowData.cekData();
+    console.log(`Cashflow :${cashflowData.hitungTotal()}`);
+    cashflowData.cekData("Pemasukan");
+    cashflowData.cekData("Pengeluaran");
     break;
 
   case "buka-dompet":

@@ -103,7 +103,7 @@ export class Dompet {
     console.log(
       boxen(t, {
         textAlignment: "center",
-        title: `Dompet :${this.hitungTotal()}`,
+        title: `Dompet: ${this.hitungTotal()}`,
         titleAlignment: "center",
         padding: 1,
       })
@@ -179,7 +179,7 @@ export class Hutang {
       console.log(
         boxen(t, {
           padding: 1,
-          title: `Hutang :${totalHutang}`,
+          title: `Hutang: ${totalHutang}`,
           titleAlignment: "center",
         })
       );
@@ -294,27 +294,41 @@ export class Cashflow {
     return this.hitungTotalPemasukan() - this.hitungTotalPengeluaran();
   };
 
-  cekData = function () {
+  cekData = function (type) {
     const cashflowTable = [
-      ["Nominal", "Keterangan", "Tanggal", "Tipe"],
-      ["", "", "", ""],
+      ["Nominal", "Keterangan", "Tanggal"],
+      ["", "", ""],
     ];
 
-    this.transaksi.forEach((item) =>
+    const dataType = this.transaksi.filter((item) => item.type === type);
+    dataType.forEach((item) =>
       cashflowTable.push([
         item.nominal,
         item.keterangan,
         formatTanggal(item.tanggal),
-        item.type,
       ])
     );
 
     const t = table(cashflowTable);
 
+    let total = 0;
+
+    switch (type) {
+      case "Pemasukan":
+        total = this.hitungTotalPemasukan();
+        break;
+      case "Pengeluaran":
+        total = this.hitungTotalPengeluaran();
+        break;
+
+      default:
+        break;
+    }
+
     console.log(
       boxen(t, {
         titleAlignment: `center`,
-        title: `Total :${this.hitungTotal()}`,
+        title: `${type}: ${total}`,
         padding: 1,
       })
     );
@@ -327,7 +341,7 @@ export class Cashflow {
 
     updateData();
 
-    this.cekData();
+    this.cekData("Pemasukan");
   };
 
   tambahPengeluaran = function (nominal, keterangan) {
@@ -337,6 +351,6 @@ export class Cashflow {
 
     updateData();
 
-    this.cekData();
+    this.cekData("Pengeluaran");
   };
 }
