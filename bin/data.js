@@ -6,26 +6,41 @@ import { Hutang } from "./model/hutang.js";
 import { Cashflow } from "./model/cashflow.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const dataPath = `${__dirname}/data.json`;
 
-const rawData = fs.readFileSync(__dirname + "/data.json");
-const json = JSON.parse(rawData);
+const isDataExist = fs.existsSync(dataPath);
 
-const { transaksi, dompet, hutang } = json;
+let json = {};
 
-export const dompetData = new Dompet(
-  dompet.seratus_ribu,
-  dompet.lima_puluh_ribu,
-  dompet.dua_puluh_ribu,
-  dompet.sepuluh_ribu,
-  dompet.lima_ribu,
-  dompet.dua_ribu,
-  dompet.seribu,
-  dompet.lima_ratus
-);
+export let dompetData;
+export let hutangData;
+export let cashflowData;
 
-export const hutangData = new Hutang(hutang);
+if (isDataExist) {
+  const rawData = fs.readFileSync(__dirname + "/data.json");
+  json = JSON.parse(rawData);
 
-export const cashflowData = new Cashflow(transaksi);
+  const { transaksi, dompet, hutang } = json;
+
+  dompetData = new Dompet(
+    dompet.seratus_ribu,
+    dompet.lima_puluh_ribu,
+    dompet.dua_puluh_ribu,
+    dompet.sepuluh_ribu,
+    dompet.lima_ribu,
+    dompet.dua_ribu,
+    dompet.seribu,
+    dompet.lima_ratus
+  );
+
+  hutangData = new Hutang(hutang);
+
+  cashflowData = new Cashflow(transaksi);
+} else {
+  dompetData = new Dompet(0, 0, 0, 0, 0, 0, 0, 0);
+  hutangData = new Hutang([]);
+  cashflowData = new Cashflow([]);
+}
 
 export function updateData() {
   // upadate hutang on json data

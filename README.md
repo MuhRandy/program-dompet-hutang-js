@@ -4,26 +4,9 @@ Program ini saya buat dengan javascript dan node js dengan tujuan belajar dan un
 
 ---
 
-# Pra-syarat
+## How to Start
 
-Pertama-tama untuk menggunakan program ini kamu dapat install dengan `npm i -g` pada root folder ini. Kemudian buat file `data.json` pada folder bin lalu copy json di bawah ini dan paste di dalamnya.
-
-```json
-{
-  "dompet": {
-    "seratus_ribu": 0,
-    "lima_puluh_ribu": 0,
-    "dua_puluh_ribu": 0,
-    "sepuluh_ribu": 0,
-    "lima_ribu": 0,
-    "dua_ribu": 0,
-    "seribu": 0,
-    "lima_ratus": 0
-  },
-  "hutang": [],
-  "transaksi": []
-}
-```
+Pertama-tama untuk menggunakan program ini kamu dapat install dengan `npm i -g` pada root folder ini.
 
 # Perintah
 
