@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { cashflowData, dompetData, hutangData } from "./data.js";
+import { cashflowData, dompetData, hutangData, todosData } from "./data.js";
 import yargs from "yargs";
 
 const argv = yargs(process.argv.slice(2))
@@ -36,16 +36,21 @@ const argv = yargs(process.argv.slice(2))
     "Tambah data pengeluaran"
   )
   .command("cek-cashflow", "Lihat data pemasukan dan pengeluaran")
+  .command("cek-todo", "Lihat To Do")
+  .command("tambah-todo <nama..>", "Menambah To Do")
+  .command("toggle-todo <nomor>", "Toggle To Do berdasarkan <nomor>")
+  .command("reset-todo", "Hapus semua To Do")
   .demandCommand()
   .strict()
   .parse();
 
 const command = argv._[0];
-const nama = argv.nama;
+const nama = argv.nama?.join(" ");
 const masuk = argv.masuk;
 const keluar = argv.keluar;
 const nominal = argv.nominal;
 const keterangan = argv.keterangan?.join(" ");
+const number = argv.nomor;
 
 switch (command) {
   case "cek-dompet":
@@ -60,6 +65,10 @@ switch (command) {
     console.log(`Cashflow :${cashflowData.hitungTotal()}`);
     cashflowData.cekData("Pemasukan");
     cashflowData.cekData("Pengeluaran");
+    break;
+
+  case "cek-todo":
+    todosData.lookToDo();
     break;
 
   case "buka-dompet":
@@ -80,6 +89,18 @@ switch (command) {
 
   case "catat-pengeluaran":
     cashflowData.tambahPengeluaran(nominal, keterangan);
+    break;
+
+  case "tambah-todo":
+    todosData.addTodo(nama);
+    break;
+
+  case "toggle-todo":
+    todosData.toggleTodo(number);
+    break;
+
+  case "reset-todo":
+    todosData.resetTodos();
     break;
 
   default:

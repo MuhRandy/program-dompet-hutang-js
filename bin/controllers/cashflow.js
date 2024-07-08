@@ -77,7 +77,7 @@ export function tambahPemasukan(nominal, keterangan) {
 
   this.transaksi.push(pemasukan);
 
-  updateData();
+  updateData("cashflow");
 
   this.cekData("Pemasukan");
 }
@@ -87,7 +87,7 @@ export function tambahPengeluaran(nominal, keterangan) {
 
   this.transaksi.push(pengeluaran);
 
-  updateData();
+  updateData("cashflow");
 
   this.cekData("Pengeluaran");
 }

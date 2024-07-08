@@ -110,7 +110,7 @@ export function bukaDompet(masuk, keluar) {
     this.keluarkanUang(jenisUang, jumlahJenisUang);
   });
 
-  updateData();
+  updateData("dompet");
 
   this.cekData();
 }

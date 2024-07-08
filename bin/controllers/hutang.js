@@ -77,7 +77,7 @@ export function tambah(nama, jumlahHutang, keterangan) {
     }
   });
 
-  updateData();
+  updateData("hutang");
 
   this.cekData();
 }
@@ -87,7 +87,7 @@ export function hapus(nama) {
 
   this.hutang.splice(indexData, 1);
 
-  updateData();
+  updateData("hutang");
 
   this.cekData();
 }
