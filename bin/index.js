@@ -37,7 +37,7 @@ const argv = yargs(process.argv.slice(2))
   )
   .command("cek-cashflow", "Lihat data pemasukan dan pengeluaran")
   .command("cek-todo", "Lihat To Do")
-  .command("tambah-todo <nama..>", "Menambah To Do")
+  .command("tambah-todo <namaToDo..>", "Menambah To Do")
   .command("toggle-todo <nomor>", "Toggle To Do berdasarkan <nomor>")
   .command("reset-todo", "Hapus semua To Do")
   .demandCommand()
@@ -45,7 +45,8 @@ const argv = yargs(process.argv.slice(2))
   .parse();
 
 const command = argv._[0];
-const nama = argv.nama?.join(" ");
+const nama = argv.nama;
+const namaToDo = argv.namaToDo?.join(" ");
 const masuk = argv.masuk;
 const keluar = argv.keluar;
 const nominal = argv.nominal;
@@ -92,7 +93,7 @@ switch (command) {
     break;
 
   case "tambah-todo":
-    todosData.addTodo(nama);
+    todosData.addTodo(namaToDo);
     break;
 
   case "toggle-todo":
